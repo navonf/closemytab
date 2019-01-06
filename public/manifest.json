@@ -1,14 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Close My Tab",
+  "name": "Close My Tab",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "car.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "iphone.png",
+      "sizes": "192x192",
+      "type": "image/png"
     }
   ],
-  "start_url": ".",
+  "start_url": "/?utm_source=homescreen",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
