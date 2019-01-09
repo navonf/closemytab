@@ -1,0 +1,19 @@
+{
+  "name": "closemytab",
+  "version": "1.0.0",
+  "description": "close my tab api",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/navonf/closemytab.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/navonf/closemytab/issues"
+  },
+  "homepage": "https://github.com/navonf/closemytab#readme"
+}
