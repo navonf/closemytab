@@ -1,11 +1,11 @@
 /*         Packages.      */
-var express          = require('express'),
+const express          = require('express'),
     app              = express(),
     bodyParser       = require('body-parser'),
     expressSanitizer = require('express-sanitizer');
 
 /*         Port.          */
-var PORT             = process.env.PORT || 3000;
+const PORT             = process.env.PORT || 3000;
 
 /*         Setup.         */
 app.use(bodyParser.json());

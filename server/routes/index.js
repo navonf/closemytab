@@ -1,3 +1,5 @@
+const barsController = require('../controllers').bars;
+
 module.exports = (app) => {
 
   /* Base route. */
@@ -6,5 +8,8 @@ module.exports = (app) => {
       message : 'Welcome to the Close My Tab API.'
     });
   });
+
+  /* Bar Routes. */
+  app.get('/bars/getNearest', barsController.getNearest);
 
 }
