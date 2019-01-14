@@ -1,45 +1,29 @@
 import React, { Component } from 'react';
-import BarMap from './BarMap';
+import posed, { PoseGroup } from 'react-pose';
+import { Link } from 'react-router-dom';
 
-class Home extends Component {
-  
-  displayMap() {
-    styles.mapCanvas.display = 'block';
-  }
+import "./Home.css";
 
-  render() {
+const Home = (history) => {
+
     return (
-      <div>
-        {/* Map Container */}
-        <div style={styles.mapCanvas}>
-          {this.displayMap()}
-          <BarMap />
+      <Link
+        to={{
+          pathname: "/map",
+          state: {foo: "passed"}
+        }}
+        style={styles.linkStyle}>
+        <div class="container">
+          <h1 class="title">Close My Tab</h1>
         </div>
-
-        {/* Scroll Container */}
-        <div>
-        </div>
-      </div>
+      </Link>
     )
-  }
+
 }
 
 const styles = {
-  title: {
-    backgroundColor:'#282c34',
-    position: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    fontSize: '2em',
-    borderRadius: '5px',
-  },
-  mapCanvas: {
-    backgroundColor:'white',
-    height: '40vh',
-    width: '100vw',
-    position: 'relative',
-    display: 'none',
+  linkStyle: {
+    textDecoration: 'none',
   }
 }
 

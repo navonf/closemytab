@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
 
-const API_URL = "http://vast-woodland-33247.herokuapp.com";
+const API_URL = "https://vast-woodland-33247.herokuapp.com";
+const personMarker = L.icon({ iconUrl : require("./../assets/man-waving-arm.png") });
+
 export default class BarMap extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +19,7 @@ export default class BarMap extends Component {
   }
 
   componentWillMount() {
+
     // This gets the current location of the user.
     this.getPosition().then((pos) => {
       const tmpCoords = {
@@ -50,20 +54,28 @@ export default class BarMap extends Component {
     return (
       <Map style={styles.mapStyle} center={position} zoom={this.state.coords.zoom}>
         <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&amp;copy <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-      {this.state.barData.map((bar, idx) =>
-            <Marker key={`marker-${idx}`} position={[bar.lat, bar.lng]}>
+      <Marker icon={personMarker} position={position}>
+          <Popup>
+            <center>
+              <span><b>ME!</b></span>
+            </center>
+          </Popup>
+        </Marker>
+      {
+        this.state.barData.map((bar, idx) =>
+          <Marker key={`marker-${idx}`} position={[bar.lat, bar.lng]}>
             <Popup>
               <center>
                 <span><b>{bar.name}</b></span> <br/>
                 <span><b>Rating:</b> {bar.rating}</span> <br/>
-                <span><a href={bar.phone}>{bar.phone}</a></span> <br/>
+                <span><a href={`tel:${bar.phone}`}>{bar.phone}</a></span> <br/>
               </center>
             </Popup>
           </Marker>
-          )}
+      )}
       </Map>
     )
   }
