@@ -3,13 +3,8 @@
   "name": "Close My Tab",
   "icons": [
     {
-      "src": "car.png",
+      "src": "beer.png",
       "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "iphone.png",
-      "sizes": "192x192",
       "type": "image/png"
     }
   ],
