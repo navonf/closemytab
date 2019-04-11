@@ -6,21 +6,20 @@ const API_URL = "https://vast-woodland-33247.herokuapp.com";
 const personMarker = L.icon({ iconUrl : require("./../assets/man-waving-arm.png") });
 
 export default class BarMap extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       coords: {
-        lat: 51.505,
-        lng: -0.09,
-        zoom: 3,
+        lat: 0,
+        lng: 0,
+        zoom: 2,
       },
       barData: [],
     }
   }
 
   componentWillMount() {
-
-    // This gets the current location of the user.
     this.getPosition().then((pos) => {
       const tmpCoords = {
         lat : pos.coords.latitude,
@@ -28,25 +27,27 @@ export default class BarMap extends Component {
         zoom : 11,
       }
       this.setState({coords : tmpCoords});
-
+      console.log("Location Services Enabled.");
       this.getNearestBars();
     });
   }
 
-
   getPosition(pos) {
     return new Promise((res, rej) => {
-      navigator.geolocation.getCurrentPosition(res, rej);
+      navigator.geolocation.getCurrentPosition(res, this.error);
     });
   }
 
-  getNearestBars() {
-    return fetch(`${API_URL}/bars/getNearest?lat=${this.state.coords.lat}&lng=${this.state.coords.lng}`)
-      .then((data) => data.json())
-      .then((data) => {
-        this.setState({barData :  data});
-        console.log(this.state.barData);
-      });
+  error() {
+    this.setState({locationServicesOn : false});
+    console.log("err");
+  }
+
+  async getNearestBars() {
+    const data = await fetch(`${API_URL}/bars/getNearest?lat=${this.state.coords.lat}&lng=${this.state.coords.lng}`);
+    const data_1 = await data.json();
+    this.setState({ barData: data_1 });
+    this.props.callBackFromMap(data_1);
   }
 
   render() {
@@ -58,9 +59,9 @@ export default class BarMap extends Component {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
       <Marker icon={personMarker} position={position}>
-          <Popup>
+          <Popup autoPan={true}>
             <center>
-              <span><b>ME!</b></span>
+              <span><b>me thirsty!</b></span>
             </center>
           </Popup>
         </Marker>

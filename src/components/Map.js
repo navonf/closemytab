@@ -2,9 +2,23 @@ import React, { Component } from 'react';
 import BarMap from './BarMap';
 
 class Map extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      coords: {
+        lat: 0,
+        lng: 0,
+        zoom: 2,
+      },
+      barData: [],
+      locationServicesOn: props.location.state.locationServicesOn,
+    }
+  }
 
-  displayMap() {
-    styles.mapCanvas.display = 'block';
+  barDataCallBack = (bars) => {
+    console.log("yeet, " + bars);
+    this.setState({barData: bars})
   }
 
   render() {
@@ -12,12 +26,22 @@ class Map extends Component {
       <div>
         {/* Map Container */}
         <div style={styles.mapCanvas}>
-          {this.displayMap()}
-          <BarMap />
+          <BarMap
+            callBackFromMap={this.barDataCallBack}
+            coords={this.state.coords}
+            barData={this.state.barData}
+            />
         </div>
 
         {/* Scroll Container */}
-        <div>
+        <div style={styles.scollContainer}>
+          <div style={styles.scroller}>
+            {this.state.barData.map((bar, idx) => {
+              return (
+                <h3 style={styles.bar}>{bar.name}</h3>
+              );
+            })}
+          </div>
         </div>
       </div>
     )
@@ -26,7 +50,7 @@ class Map extends Component {
 
 const styles = {
   title: {
-    backgroundColor:'#202424',
+    backgroundColor: '#202424',
     position: 'center',
     alignItems: 'center',
     justifyContent: 'center',
@@ -36,10 +60,30 @@ const styles = {
   },
   mapCanvas: {
     backgroundColor:'white',
-    height: '40vh',
+    height: '50vh',
     width: '100vw',
     position: 'relative',
-    display: 'none',
+    display: 'block',
+  },
+  scollContainer: {
+    backgroundColor: '#202424',
+    height: '50vh',
+    width: '100vw',
+    margin: '0 auto',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  scroller: {
+    margin: '0 auto',
+    height: '50vh',
+    width: '22em',
+    overflow: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  bar: {
+    color: 'white',
+    textAlign: 'center'
   }
 }
 
