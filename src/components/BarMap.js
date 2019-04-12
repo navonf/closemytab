@@ -17,6 +17,9 @@ export default class BarMap extends Component {
       },
       barData: [],
     }
+
+    this.getNearestBars = this.getNearestBars.bind(this);
+    this.updatePositionMarker = this.updatePositionMarker.bind(this);
   }
 
   componentWillMount() {
@@ -28,7 +31,7 @@ export default class BarMap extends Component {
       }
       this.setState({coords : tmpCoords});
       console.log("Location Services Enabled.");
-      this.getNearestBars();
+      this.getNearestBars(this.state.coords.lat, this.state.coords.lng);
     });
   }
 
@@ -43,15 +46,22 @@ export default class BarMap extends Component {
     console.log("err");
   }
 
-  async getNearestBars() {
-    const data = await fetch(`${API_URL}/bars/getNearest?lat=${this.state.coords.lat}&lng=${this.state.coords.lng}`);
+  async getNearestBars(lat, lng) {
+    const data = await fetch(`${API_URL}/bars/getNearest?lat=${lat}&lng=${lng}`);
     const data_1 = await data.json();
     this.setState({ barData: data_1 });
     this.props.callBackFromMap(data_1);
   }
 
-  handleClick(e){
-    console.log("newcoords: " + e.target.getLatLng()[0]);
+  updatePositionMarker(e){
+    const latlng = e.target.getLatLng();
+    const newCoords = {
+      lat : latlng.lat,
+      lng : latlng.lng,
+      zoom : 11,
+    }
+    this.setState({coords: newCoords});
+    this.getNearestBars(newCoords.lat, newCoords.lng);
   }
 
   render() {
@@ -65,7 +75,7 @@ export default class BarMap extends Component {
           attribution='&amp;copy <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-      <Marker draggable={true} zIndexOffset={1000} icon={personMarker} position={position} onDragEnd={this.handleClick}>
+      <Marker draggable={true} zIndexOffset={1000} icon={personMarker} position={position} onDragEnd={this.updatePositionMarker}>
         <Popup autoPan={true}>
           <center>
             <span><b>me thirsty!</b></span>
