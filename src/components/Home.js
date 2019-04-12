@@ -12,8 +12,6 @@ class Home extends Component {
     this.state = {
       locationServicesOn : true,
     }
-
-    // this.error = this.error.bind(this);
   }
 
   // Using componentWillMount because we are just fetching the positional

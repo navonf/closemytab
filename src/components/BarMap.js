@@ -39,7 +39,7 @@ export default class BarMap extends Component {
   }
 
   error() {
-    this.setState({locationServicesOn : false});
+    // this.setState({locationServicesOn : false});
     console.log("err");
   }
 
@@ -50,21 +50,28 @@ export default class BarMap extends Component {
     this.props.callBackFromMap(data_1);
   }
 
+  handleClick(e){
+    console.log("newcoords: " + e.target.getLatLng()[0]);
+  }
+
   render() {
     const position = [this.state.coords.lat, this.state.coords.lng]
     return (
-      <Map style={styles.mapStyle} center={position} zoom={this.state.coords.zoom}>
+      <Map 
+        style={styles.mapStyle} 
+        center={position} 
+        zoom={this.state.coords.zoom}>
         <TileLayer
           attribution='&amp;copy <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-      <Marker icon={personMarker} position={position}>
-          <Popup autoPan={true}>
-            <center>
-              <span><b>me thirsty!</b></span>
-            </center>
-          </Popup>
-        </Marker>
+      <Marker draggable={true} zIndexOffset={1000} icon={personMarker} position={position} onDragEnd={this.handleClick}>
+        <Popup autoPan={true}>
+          <center>
+            <span><b>me thirsty!</b></span>
+          </center>
+        </Popup>
+      </Marker>
       {
         this.state.barData.map((bar, idx) =>
           <Marker key={`marker-${idx}`} position={[bar.lat, bar.lng]}>

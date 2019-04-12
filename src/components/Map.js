@@ -79,7 +79,8 @@ const styles = {
     width: '22em',
     overflow: 'auto',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    // scrollBehavior: 'smooth'
   },
   bar: {
     color: 'white',
