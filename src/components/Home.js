@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import posed, { PoseGroup } from 'react-pose';
 import { Link } from 'react-router-dom';
 
 import "./Home.css";
@@ -13,14 +12,6 @@ class Home extends Component {
       locationServicesOn : true,
     }
   }
-
-  // Using componentWillMount because we are just fetching the positional
-  // data behind the scenes for <Map />'s child component <BarMap />.
-  componentWillMount() {
-    
-  }
-
-
 
   render() {
     return (

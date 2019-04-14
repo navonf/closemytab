@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BarMap from './BarMap';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Map extends Component {
   
@@ -12,13 +13,18 @@ class Map extends Component {
         zoom: 2,
       },
       barData: [],
+      loaded: false,
       locationServicesOn: props.location.state.locationServicesOn,
     }
   }
 
   barDataCallBack = (bars) => {
-    console.log("yeet, " + bars);
+    this.setState({loaded: true});
     this.setState({barData: bars})
+  }
+
+  clickBarName = (bar) => {
+    console.log(bar.name);
   }
 
   render() {
@@ -34,15 +40,22 @@ class Map extends Component {
         </div>
 
         {/* Scroll Container */}
-        <div style={styles.scollContainer}>
+        {this.state.loaded ?
+          <div style={styles.scollContainer}>
           <div style={styles.scroller}>
             {this.state.barData.map((bar, idx) => {
               return (
+                <div>
                 <h3 style={styles.bar}>{bar.name}</h3>
+                </div>
               );
             })}
           </div>
+        </div> :
+        <div style={styles.loadingBarContainer}>
+          <CircularProgress color={'primary'} style={styles.loadingBar} size={250} thickness={1}/>
         </div>
+        }
       </div>
     )
   }
@@ -80,11 +93,18 @@ const styles = {
     overflow: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
-    // scrollBehavior: 'smooth'
   },
   bar: {
     color: 'white',
     textAlign: 'center'
+  },
+  loadingBar: {
+  },
+  loadingBarContainer: {
+    margin: '2.5em auto',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent:'center',
   }
 }
 

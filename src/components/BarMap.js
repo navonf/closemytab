@@ -49,7 +49,7 @@ export default class BarMap extends Component {
   async getNearestBars(lat, lng) {
     const data = await fetch(`${API_URL}/bars/getNearest?lat=${lat}&lng=${lng}`);
     const data_1 = await data.json();
-    this.setState({ barData: data_1 });
+    this.setState({barData: data_1});
     this.props.callBackFromMap(data_1);
   }
 
