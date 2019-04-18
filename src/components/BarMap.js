@@ -66,14 +66,18 @@ export default class BarMap extends Component {
 
   render() {
     const position = [this.state.coords.lat, this.state.coords.lng]
+    // const mapUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    const mapUrl = "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+    // const mapUrl = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+
     return (
       <Map 
         style={styles.mapStyle} 
         center={position} 
         zoom={this.state.coords.zoom}>
         <TileLayer
-          attribution='&amp;copy <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='Drink Responsibly :)'
+          url={mapUrl}
         />
       <Marker draggable={true} zIndexOffset={1000} icon={personMarker} position={position} onDragEnd={this.updatePositionMarker}>
         <Popup autoPan={true}>
