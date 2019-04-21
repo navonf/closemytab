@@ -12,8 +12,9 @@ h1 {
   margin-right: auto;
   position: relative;
   display : inherit;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 5em;
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
 }
 
 .text {
@@ -31,5 +32,7 @@ h1 {
 
 .container {
   width: 100vw;
-  height: 92vh;
+  height: 50vh;
+  transform: translateY(70%);
+  text-align: center;
 }

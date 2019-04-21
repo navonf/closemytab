@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import BarMap from './BarMap';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import './Map.css';
+
 class Map extends Component {
   
   constructor(props) {
@@ -13,8 +21,7 @@ class Map extends Component {
         zoom: 2,
       },
       barData: [],
-      loaded: false,
-      locationServicesOn: props.location.state.locationServicesOn,
+      loaded: false
     }
   }
 

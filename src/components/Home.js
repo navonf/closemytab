@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import FindBarsButton from './Buttons/FindBarsButton';
+import posed from "react-pose";
+import styled from "styled-components";
 
 import "./Home.css";
+
+const posedh1 = posed.h1({
+  idle: { scale: 1 },
+  hovered: { scale: 1.20 }
+});
+
+const StyledHeader = styled(posedh1)`
+background: none;
+`;
 
 class Home extends Component {
 
@@ -9,45 +20,26 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      locationServicesOn : true,
+      hovering: false
     }
   }
 
   render() {
     return (
-      <div>
-        {this.state.locationServicesOn ?
-          <Link
-            to={{
-              pathname: "/map",
-              state: {
-                locationServicesOn : this.state.locationServicesOn
-              }
-            }}
-            style={styles.linkStyle}>
-            <div className="container">
-              <h1 className="title">bar hop.</h1>
-              <span className="text">tap anywhere to find bars</span>
-            </div>
-          </Link> :
-        <div className="container">
-          <h1 className="text">
-            this app is currently in development <br />
-            and needs geoservices, sorry.
-          </h1>
-        </div>
-
-        }
+      <div className="container">
+        <StyledHeader 
+          className="title"
+          pose={this.state.hovering ? "hovered" : "idle"}
+          onMouseEnter={() => this.setState({ hovering: true })}
+          onMouseLeave={() => this.setState({ hovering: false })}
+        >
+          bar hop.
+        </StyledHeader>
+        <FindBarsButton />
       </div>
     )
   }
 
-}
-
-const styles = {
-  linkStyle: {
-    textDecoration: 'none',
-  }
 }
 
 export default Home;
