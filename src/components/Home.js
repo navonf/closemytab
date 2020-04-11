@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import FindBarsButton from './Buttons/FindBarsButton';
 import posed from "react-pose";
 import styled from "styled-components";
@@ -14,32 +14,22 @@ const StyledHeader = styled(posedh1)`
 background: none;
 `;
 
-class Home extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      hovering: false
-    }
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <StyledHeader 
+const Home = () => {
+  const [ hovering, setHovering ] = useState(false);
+  return (
+    <div className="container">
+      <StyledHeader 
           className="title"
-          pose={this.state.hovering ? "hovered" : "idle"}
-          onMouseEnter={() => this.setState({ hovering: true })}
-          onMouseLeave={() => this.setState({ hovering: false })}
+          pose={hovering ? "hovered" : "idle"}
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
         >
           bar hop.
         </StyledHeader>
         <FindBarsButton />
-      </div>
-    )
-  }
-
+    </div>
+  );
 }
+ 
 
 export default Home;
