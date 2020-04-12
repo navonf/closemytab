@@ -1,71 +1,78 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import BarMap from './BarMap';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-
+import BarButton from './Buttons/BarButton';
 import './Map.css';
 
-class Map extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      coords: {
-        lat: 0,
-        lng: 0,
-        zoom: 2,
-      },
-      barData: [],
-      loaded: false
-    }
+const Map = () => {
+  const [ coords, setCoords ]       = useState({ lat: 0, lng: 0, zoom: 2 });
+  const [ barData, setBarData ]     = useState([]);
+  const [ loaded, setLoaded ]       = useState(false);
+  const [ snapToBar, setSnapToBar ] = useState("");
+
+  const barDataCallBack = (bars) => {
+    setLoaded(true);
+    setBarData(bars);
   }
 
-  barDataCallBack = (bars) => {
-    this.setState({loaded: true});
-    this.setState({barData: bars})
-  }
-
-  clickBarName = (bar) => {
+  const clickBarName = (bar) => {
     console.log(bar.name);
   }
 
-  render() {
-    return (
-      <div>
-        {/* Map Container */}
-        <div style={styles.mapCanvas}>
-          <BarMap
-            callBackFromMap={this.barDataCallBack}
-            coords={this.state.coords}
-            barData={this.state.barData}
-            />
-        </div>
-
-        {/* Scroll Container */}
-        {this.state.loaded ?
-          <div style={styles.scollContainer}>
-          <div style={styles.scroller}>
-            {this.state.barData.map((bar, idx) => {
-              return (
-                <div>
-                <h3 style={styles.bar}>{bar.name}</h3>
-                </div>
-              );
-            })}
-          </div>
-        </div> :
-        <div style={styles.loadingBarContainer}>
-          <CircularProgress color={'primary'} style={styles.loadingBar} size={250} thickness={1}/>
-        </div>
-        }
-      </div>
-    )
+  const barButtonCallBack = (barName) => {
+    setSnapToBar(barName);
   }
+
+  const drinkButtonCallBack = (barName) => {
+    console.log("bar name: " + barName);
+  }
+
+  const updateSnapToProps = () => {
+    setSnapToBar("");
+  }
+
+  return (
+    <div>
+      {/* Map Container */}
+      <div style={styles.mapCanvas}>
+        <BarMap
+          callBackFromMap={barDataCallBack}
+          snapTo={snapToBar}
+          endSnapToCallBack={updateSnapToProps}
+          coords={coords}
+          barData={barData}
+          />
+      </div>
+
+      {/* Scroll Container */}
+      {loaded ?
+        <div style={styles.scollContainer}>
+        <div style={styles.scroller}>
+          {barData.map((bar, idx) => {
+            return (
+              <div>
+              <p style={styles.bar}>{bar.name}</p>
+              <p style={styles.barButtons}>
+                ⭐{bar.rating} 
+                <div style={styles.buttonsRow}>
+                  <BarButton 
+                    barName={bar.name} 
+                    style={styles.barButtons}
+                    callBackFromDrinkButton={drinkButtonCallBack}
+                    callBackFromBarButton={barButtonCallBack}/>
+                </div>
+              </p>
+              </div>
+            );
+          })}
+        </div>
+      </div> :
+      <div style={styles.loadingBarContainer}>
+        <CircularProgress color={'primary'} style={styles.loadingBar} size={250} thickness={1}/>
+      </div>
+      }
+    </div>
+  );
 }
 
 const styles = {
@@ -103,7 +110,13 @@ const styles = {
   },
   bar: {
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: '1.4em'
+  },
+  barButtons: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: '1.3em',
   },
   loadingBar: {
   },
@@ -112,6 +125,9 @@ const styles = {
     alignItems: 'center',
     display: 'flex',
     justifyContent:'center',
+  },
+  buttonsRow: {
+    flexDirection: 'row'
   }
 }
 
